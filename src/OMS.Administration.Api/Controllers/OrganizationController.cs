@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OMS.Administration.Domain.Entities;
 using OMS.Administration.Infrasturcture.Services.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OMS.Administration.Api.Controllers
 {
@@ -11,6 +15,12 @@ namespace OMS.Administration.Api.Controllers
         public OrganizationController(IOrganizationService organizationService)
         {
             _organizationService = organizationService;
+        }
+
+        [HttpPost]
+        public async Task SaveOrganization([FromBody] Organization organization)
+        {
+            await _organizationService.SaveOrganizationAsync(organization);
         }
     }
 }

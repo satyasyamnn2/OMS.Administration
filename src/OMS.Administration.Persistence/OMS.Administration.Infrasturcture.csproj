@@ -12,5 +12,6 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="5.0.17" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+		<PackageReference Include="OMS.DataAccess.Shared" Version="1.0.0" />
 	</ItemGroup>
 </Project>

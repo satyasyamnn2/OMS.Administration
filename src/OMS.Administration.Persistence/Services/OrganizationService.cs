@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using OMS.Administration.Domain.Entities;
-using OMS.Administration.Infrasturcture.Persistence;
 using OMS.Administration.Infrasturcture.Services.Contracts;
+using OMS.DataAccess.Shared;
 using System.Threading.Tasks;
 
 namespace OMS.Administration.Infrasturcture.Services
@@ -9,17 +9,16 @@ namespace OMS.Administration.Infrasturcture.Services
     public class OrganizationService : IOrganizationService
     {
         private ILogger<OrganizationService> _logger;
-        private IAdministrationDbContext _dbContext;
-        public OrganizationService(ILogger<OrganizationService> logger, IAdministrationDbContext dbContext)
+        private IRepository<Organization> _organizationRepository;
+        public OrganizationService(ILogger<OrganizationService> logger, IRepository<Organization> organizationRepository)
         {
             _logger = logger;
-            _dbContext = dbContext;
+            _organizationRepository = organizationRepository;
         }
         public async Task SaveOrganizationAsync(Organization organization)
         {
             _logger.LogInformation("Saving organization");
-            _dbContext.Organizations.Add(organization);
-            await _dbContext.SaveChangesAsync();
+            await _organizationRepository.InsertOneAsync(organization);
         }
     }
 }

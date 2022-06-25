@@ -9,8 +9,8 @@ using OMS.Administration.Infrasturcture.Persistence;
 namespace OMS.Administration.Migrations.Migrations
 {
     [DbContext(typeof(AdministrationDbContext))]
-    [Migration("20220622042542_initialmigration")]
-    partial class initialmigration
+    [Migration("20220625054619_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

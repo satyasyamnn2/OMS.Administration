@@ -16,7 +16,9 @@ namespace OMS.Administration.Api
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             string vaultUrl = Environment.GetEnvironmentVariable("VAULT_URL");
+            Console.WriteLine("Vault URI " + vaultUrl);
             string rootPassword = Environment.GetEnvironmentVariable("VAULT_ROOT_PWD");
+            Console.WriteLine("Vault password " + rootPassword);
 
             IHostBuilder builder = Host.CreateDefaultBuilder(args);
             builder.ConfigureAppConfiguration(config => config.AddVaultConfiguration(() => new VaultOptions
@@ -24,7 +26,7 @@ namespace OMS.Administration.Api
                 VaultUri = vaultUrl,
                 RootToken = rootPassword,
                 BasePath = "OMSSettings",
-                SubPathToUse ="Development"
+                SubPathToUse = "Development"
             }));
             builder.ConfigureWebHostDefaults(webBuilder =>
             {
