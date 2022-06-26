@@ -2,10 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using OMS.Administration.Domain.Entities;
 using OMS.Administration.Infrasturcture.Persistence;
-using OMS.Administration.Infrasturcture.Services;
-using OMS.Administration.Infrasturcture.Services.Contracts;
 using OMS.DataAccess.Shared;
-using System;
+using OMS.DataAccess.Shared.Contracts;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,7 +13,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void AddAdministrationDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             string connectionString = configuration.GetValue<string>("DefaultConnection");
-            Console.WriteLine("connectionString " + connectionString);
             bool enableDetailedErrors = bool.Parse(configuration.GetValue<string>("EnableDetailedErrors"));
             bool enableSensitiveDataLogging = bool.Parse(configuration.GetValue<string>("EnableSensitiveDataLogging"));
             services.AddEntityFrameworkNpgsql().AddDbContext<AdministrationDbContext>(options =>
@@ -26,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
             services.AddTransient<IAdministrationDbContext, AdministrationDbContext>();
             services.AddTransient<IRepository<Organization>, GenericRepository<AdministrationDbContext, Organization>>();
-            services.AddTransient<IOrganizationService, OrganizationService>();
+            services.AddTransient<IGenericService<Organization, IRepository<Organization>>, GenericService<Organization, IRepository<Organization>>>();
         }
     }
 }

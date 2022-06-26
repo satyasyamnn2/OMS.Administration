@@ -15,7 +15,6 @@ namespace OMS.Administration.Infrasturcture.Persistence
         {
             modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
-
             base.OnModelCreating(modelBuilder);
         }
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OMS.Administration.Domain.Entities;
-using OMS.Administration.Infrasturcture.Services.Contracts;
-using System;
-using System.Collections.Generic;
+using OMS.DataAccess.Shared.Contracts;
 using System.Threading.Tasks;
 
 namespace OMS.Administration.Api.Controllers
@@ -11,8 +9,8 @@ namespace OMS.Administration.Api.Controllers
     [ApiController]
     public class OrganizationController : ControllerBase
     {
-        private IOrganizationService _organizationService;
-        public OrganizationController(IOrganizationService organizationService)
+        private IGenericService<Organization, IRepository<Organization>> _organizationService;
+        public OrganizationController(IGenericService<Organization, IRepository<Organization>> organizationService)
         {
             _organizationService = organizationService;
         }
@@ -20,7 +18,7 @@ namespace OMS.Administration.Api.Controllers
         [HttpPost]
         public async Task SaveOrganization([FromBody] Organization organization)
         {
-            await _organizationService.SaveOrganizationAsync(organization);
+            await _organizationService.SaveEntityAsync(organization);
         }
     }
 }
