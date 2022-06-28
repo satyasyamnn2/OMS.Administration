@@ -1,8 +1,9 @@
-﻿namespace OMS.Administration.Domain.Entities
+﻿using OMS.DataAccess.Shared;
+
+namespace OMS.Administration.Domain.Entities
 {
-    public class Contact
-    {
-        public string Id { get; set; }
+    public class Contact: EntityBase
+    {   
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }

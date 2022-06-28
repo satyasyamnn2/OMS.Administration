@@ -22,8 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.EnableSensitiveDataLogging(enableSensitiveDataLogging);
             });
             services.AddTransient<IAdministrationDbContext, AdministrationDbContext>();
-            services.AddTransient<IRepository<Organization>, GenericRepository<AdministrationDbContext, Organization>>();
-            services.AddTransient<IGenericService<Organization, IRepository<Organization>>, GenericService<Organization, IRepository<Organization>>>();
+            services.AddTransient<IGenericRepository<Organization>, GenericRepository<AdministrationDbContext, Organization>>();
+            services.AddTransient<IGenericService<Organization, IGenericRepository<Organization>>, GenericService<Organization, IGenericRepository<Organization>>>();
         }
     }
 }

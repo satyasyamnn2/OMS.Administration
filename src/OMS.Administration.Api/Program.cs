@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OMS.Extensions.Configuration.Vault;
 using System;
+using System.Diagnostics;
 
 namespace OMS.Administration.Api
 {
@@ -15,6 +16,8 @@ namespace OMS.Administration.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
+            Debugger.Launch();
+
             string vaultUrl = Environment.GetEnvironmentVariable("VAULT_URL");            
             string rootPassword = Environment.GetEnvironmentVariable("VAULT_ROOT_PWD");
             IHostBuilder builder = Host.CreateDefaultBuilder(args);

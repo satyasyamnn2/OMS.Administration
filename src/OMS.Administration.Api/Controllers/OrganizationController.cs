@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OMS.Administration.Domain.Entities;
+using OMS.Administration.Domain.Specifications;
 using OMS.DataAccess.Shared.Contracts;
+using OMS.DataAccess.Shared.Specification;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,8 +12,8 @@ namespace OMS.Administration.Api.Controllers
     [ApiController]
     public class OrganizationController : ControllerBase
     {
-        private IGenericService<Organization, IRepository<Organization>> _organizationService;
-        public OrganizationController(IGenericService<Organization, IRepository<Organization>> organizationService)
+        private IGenericService<Organization, IGenericRepository<Organization>> _organizationService;
+        public OrganizationController(IGenericService<Organization, IGenericRepository<Organization>> organizationService)
         {
             _organizationService = organizationService;
         }
@@ -23,12 +25,21 @@ namespace OMS.Administration.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAll()
         {
-            IEnumerable<object> data = _organizationService.Repository.Get(null, null, string.Empty, x => new
-            {
-                OrganizationName = x.Name,
-                Tax = x.TaxIdenfier
+            IEnumerable<Organization> data = await _organizationService.GetAllAsync();
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("{parentOrganizationId}/Branches")]
+        public async Task<IActionResult> GetBranches(string parentOrganizationId)
+        {
+            Specification<Organization> spec = new GetBranchesSpecification(parentOrganizationId);            
+            IReadOnlyList<object> data = await _organizationService.Search(spec, o => new {
+                o.Name,
+                o.TaxIdenfier,
+                o.Email,
             });
             return Ok(data);
         }

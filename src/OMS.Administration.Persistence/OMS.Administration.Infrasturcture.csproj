@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\OMS.Shared\src\OMS.DataAccess.Shared\OMS.DataAccess.Shared.csproj" />
     <ProjectReference Include="..\OMS.Administration.Domain\OMS.Administration.Domain.csproj" />
   </ItemGroup>
 	<ItemGroup>
