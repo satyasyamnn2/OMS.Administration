@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OMS.Administration.Infrasturcture.Persistence.DataSeed;
 
 namespace OMS.Administration.Api
 {
@@ -19,6 +20,7 @@ namespace OMS.Administration.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCurrentUserService();
             services.AddAdministrationDbContext(Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -31,7 +33,13 @@ namespace OMS.Administration.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
+            {                
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var initialiser = scope.ServiceProvider.GetRequiredService<AdministrationDbContextInitializer>();                 
+                    initialiser.SeedData();
+                }
+
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OMS.Administration.Api v1"));

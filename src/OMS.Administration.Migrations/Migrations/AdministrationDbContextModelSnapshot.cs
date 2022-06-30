@@ -112,8 +112,8 @@ namespace OMS.Administration.Migrations.Migrations
                     b.Property<double>("TurnOver")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("YearOfEstablishment")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<int>("YearOfEstablishment")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -2,12 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using OMS.Administration.Domain.Entities;
 using OMS.Administration.Infrasturcture.Persistence;
+using OMS.Administration.Infrasturcture.Persistence.DataSeed;
+using OMS.Administration.Infrasturcture.Persistence.Interceptors;
 using OMS.DataAccess.Shared;
 using OMS.DataAccess.Shared.Contracts;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class AdministraionDbContextExtensions
+    public static class AdministrationExtensions
     {
         private const string MigrationAssemblyName = "OMS.Administration.Migrations";
         public static void AddAdministrationDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -21,9 +23,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.EnableDetailedErrors(enableDetailedErrors);
                 options.EnableSensitiveDataLogging(enableSensitiveDataLogging);
             });
+            services.AddScoped<AdministrationDbContextInitializer>();
             services.AddTransient<IAdministrationDbContext, AdministrationDbContext>();
             services.AddTransient<IGenericRepository<Organization>, GenericRepository<AdministrationDbContext, Organization>>();
             services.AddTransient<IGenericService<Organization, IGenericRepository<Organization>>, GenericService<Organization, IGenericRepository<Organization>>>();
+            services.AddScoped<AuditableEntitySaveChangesInterceptor>();
         }
     }
 }

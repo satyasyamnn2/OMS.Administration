@@ -9,12 +9,16 @@ namespace OMS.Administration.Infrasturcture.Persistence
 {
     public class AdministrationDbContext : DbContext, IAdministrationDbContext
     {
-        public AdministrationDbContext(DbContextOptions<AdministrationDbContext> options) : base(options) { }
+        private readonly AuditableEntitySaveChangesInterceptor _interceptor;
+        public AdministrationDbContext(DbContextOptions<AdministrationDbContext> options, AuditableEntitySaveChangesInterceptor interceptor) : base(options) 
+        {
+            _interceptor = interceptor;
+        }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.AddInterceptors(new AuditableEntitySaveChangesInterceptor());
+            optionsBuilder.AddInterceptors(_interceptor);
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

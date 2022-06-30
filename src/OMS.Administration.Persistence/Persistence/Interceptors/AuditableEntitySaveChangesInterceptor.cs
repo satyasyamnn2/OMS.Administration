@@ -10,7 +10,13 @@ using System.Threading.Tasks;
 namespace OMS.Administration.Infrasturcture.Persistence.Interceptors
 {
     public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
-    {   
+    {
+        private readonly ICurrentUserService _userService;
+        public AuditableEntitySaveChangesInterceptor(ICurrentUserService userService) : base()
+        {
+            _userService = userService;
+        }
+
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
         {
             UpdateAuditableFields(eventData.Context);
@@ -31,12 +37,12 @@ namespace OMS.Administration.Infrasturcture.Persistence.Interceptors
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = "Dummy";
+                    entry.Entity.CreatedBy = _userService.CurrentUserId;
                     entry.Entity.CreatedOn = DateTime.Now;
                 }
                 else if (entry.State == EntityState.Modified)
                 {
-                    entry.Entity.ModifiedBy = "Dummy";
+                    entry.Entity.ModifiedBy = _userService.CurrentUserId;
                     entry.Entity.ModifiedOn = DateTime.Now;
                 }
             }                
