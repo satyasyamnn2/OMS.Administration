@@ -1,8 +1,8 @@
-﻿using OMS.DataAccess.Shared;
+﻿using OMS.DataAccess.Shared.Models;
 
 namespace OMS.Administration.Domain.Entities
 {
-    public class Contact: EntityBase
+    public class Contact: AuditableEntityBase
     {   
         public string Name { get; set; }
         public string Email { get; set; }

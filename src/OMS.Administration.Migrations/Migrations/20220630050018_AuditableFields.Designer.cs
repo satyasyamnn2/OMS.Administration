@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OMS.Administration.Infrasturcture.Persistence;
@@ -9,9 +10,10 @@ using OMS.Administration.Infrasturcture.Persistence;
 namespace OMS.Administration.Migrations.Migrations
 {
     [DbContext(typeof(AdministrationDbContext))]
-    partial class AdministrationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220630050018_AuditableFields")]
+    partial class AuditableFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,30 +138,25 @@ namespace OMS.Administration.Migrations.Migrations
                             b1.Property<string>("City")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("character varying(20)")
-                                .HasColumnName("City");
+                                .HasColumnType("character varying(20)");
 
                             b1.Property<string>("Country")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("character varying(20)")
-                                .HasColumnName("Country");
+                                .HasColumnType("character varying(20)");
 
                             b1.Property<string>("State")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("State");
+                                .HasColumnType("character varying(50)");
 
                             b1.Property<string>("Street")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("StreetName");
+                                .HasColumnType("character varying(50)");
 
                             b1.Property<int>("ZipCode")
-                                .HasColumnType("integer")
-                                .HasColumnName("ZipCode");
+                                .HasColumnType("integer");
 
                             b1.HasKey("ContactId");
 
@@ -188,30 +185,25 @@ namespace OMS.Administration.Migrations.Migrations
                             b1.Property<string>("City")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("character varying(20)")
-                                .HasColumnName("City");
+                                .HasColumnType("character varying(20)");
 
                             b1.Property<string>("Country")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("character varying(20)")
-                                .HasColumnName("Country");
+                                .HasColumnType("character varying(20)");
 
                             b1.Property<string>("State")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("State");
+                                .HasColumnType("character varying(50)");
 
                             b1.Property<string>("Street")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("StreetName");
+                                .HasColumnType("character varying(50)");
 
                             b1.Property<int>("ZipCode")
-                                .HasColumnType("integer")
-                                .HasColumnName("ZipCode");
+                                .HasColumnType("integer");
 
                             b1.HasKey("OrganizationId");
 

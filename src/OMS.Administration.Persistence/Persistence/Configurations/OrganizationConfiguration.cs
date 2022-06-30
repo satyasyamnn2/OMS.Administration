@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OMS.Administration.Api.Infrastructure.Persistence;
 using OMS.Administration.Domain.Entities;
 
-namespace OMS.Administration.Infrasturcture.Persistence.ModelConfigurations
+namespace OMS.Administration.Infrasturcture.Persistence.Configurations
 {
-    public class OrganizationConfiguration : ModelConfigurationBase<Organization>
+    public class OrganizationConfiguration : AuditableModelConfigurationBase<Organization>
     {
         protected override void SetKeyFields(EntityTypeBuilder<Organization> builder)
         {
@@ -25,11 +26,11 @@ namespace OMS.Administration.Infrasturcture.Persistence.ModelConfigurations
 
         protected override void SetAdditionalInformation(EntityTypeBuilder<Organization> builder)
         {
-            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.Street).IsRequired().HasMaxLength(ColumnTypes.Text50.Length);
-            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.City).IsRequired().HasMaxLength(ColumnTypes.Text20.Length);
-            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.State).IsRequired().HasMaxLength(ColumnTypes.Text50.Length);
-            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.Country).IsRequired().HasMaxLength(ColumnTypes.Text20.Length);
-            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.ZipCode).IsRequired();
+            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.Street).HasColumnName("StreetName").IsRequired().HasMaxLength(ColumnTypes.Text50.Length);
+            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.City).HasColumnName("City").IsRequired().HasMaxLength(ColumnTypes.Text20.Length);
+            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.State).HasColumnName("State").IsRequired().HasMaxLength(ColumnTypes.Text50.Length);
+            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.Country).HasColumnName("Country").IsRequired().HasMaxLength(ColumnTypes.Text20.Length);
+            builder.OwnsOne(org => org.OfficeAddress).Property(e => e.ZipCode).HasColumnName("ZipCode").IsRequired();
         }
     }
 }

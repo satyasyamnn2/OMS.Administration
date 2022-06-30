@@ -1,9 +1,11 @@
 ﻿using OMS.DataAccess.Shared;
+using OMS.DataAccess.Shared.Models;
+using System;
 using System.Collections.Generic;
 
 namespace OMS.Administration.Domain.Entities
 {
-    public class Organization : EntityBase 
+    public class Organization : AuditableEntityBase
     {   
         public string Name { get; set; }
         public string Email { get; set; }
@@ -11,6 +13,9 @@ namespace OMS.Administration.Domain.Entities
         public Address OfficeAddress { get; set; }
         public List<Contact> Contacts { get; set; } = new List<Contact>();
         public string ParentOrganizationId { get; set; }
-        public Organization ParentOrganization { get; set; }        
+        public Organization ParentOrganization { get; set; }
+        public double TurnOver { get; set; }
+        public string Currency { get; set; }
+        public DateTime YearOfEstablishment { get; set; }
     }
 }
