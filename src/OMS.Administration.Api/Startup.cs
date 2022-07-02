@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OMS.Administration.Infrasturcture.Persistence;
 using OMS.Administration.Infrasturcture.Persistence.DataSeed;
 
 namespace OMS.Administration.Api
@@ -36,8 +37,11 @@ namespace OMS.Administration.Api
             {                
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
-                    var initialiser = scope.ServiceProvider.GetRequiredService<AdministrationDbContextInitializer>();                 
-                    initialiser.SeedData();
+                    var initialiser = scope.ServiceProvider.GetRequiredService<AdministrationDbContextInitializer>();
+                    using (var dbContext = scope.ServiceProvider.GetRequiredService<AdministrationDbContext>())
+                    {
+                        initialiser.SeedData(dbContext);
+                    }
                 }
 
                 app.UseDeveloperExceptionPage();

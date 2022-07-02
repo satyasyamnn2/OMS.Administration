@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OMS.Administration.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,32 +9,18 @@ namespace OMS.Administration.Infrasturcture.Persistence.DataSeed
 {
     public class AdministrationDbContextInitializer
     {
-        private AdministrationDbContext _dbContext;
-        public AdministrationDbContextInitializer(AdministrationDbContext dbContext)
+        public void SeedData(AdministrationDbContext dbContext)
         {
-            _dbContext = dbContext;
+            SeedDataAsync(dbContext);
         }
 
-        public void SeedData()
+        private void SeedDataAsync(AdministrationDbContext dbContext)
         {
-            SeedDataAsync().ConfigureAwait(true);
-        }
-
-        private async Task SeedDataAsync()
-        {
-            await InitializeAsync().ConfigureAwait(true);
-            await InsertOrganizationDetails();
-        }
-
-        private async Task InitializeAsync()
-        {
-            await _dbContext.Database.MigrateAsync();
-        }
-
-        private async Task InsertOrganizationDetails()
-        {
-            if (_dbContext.Organizations.Count() == 0)
+            dbContext.Database.Migrate();
+            int totalCount = dbContext.Organizations.Count();
+            if (totalCount == 0)
             {
+                IList<Organization> lists = new List<Organization>();
                 for (int j = 0; j < 10; j++)
                 {
                     string guid = Guid.NewGuid().ToString();
@@ -79,9 +66,10 @@ namespace OMS.Administration.Infrasturcture.Persistence.DataSeed
                         });
                         isOwner = false;
                     }
-                    await _dbContext.Organizations.AddAsync(org);
+                    lists.Add(org);                    
                 }
-                await _dbContext.SaveChangesAsync();
+                dbContext.Organizations.AddRange(lists);
+                dbContext.SaveChanges();
             }
         }
     }

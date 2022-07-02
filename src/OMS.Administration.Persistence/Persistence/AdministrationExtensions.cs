@@ -23,10 +23,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.EnableDetailedErrors(enableDetailedErrors);
                 options.EnableSensitiveDataLogging(enableSensitiveDataLogging);
             });
-            services.AddScoped<AdministrationDbContextInitializer>();
+            services.AddTransient<AdministrationDbContextInitializer>();
             services.AddTransient<IAdministrationDbContext, AdministrationDbContext>();
+
             services.AddTransient<IGenericRepository<Organization>, GenericRepository<AdministrationDbContext, Organization>>();
             services.AddTransient<IGenericService<Organization, IGenericRepository<Organization>>, GenericService<Organization, IGenericRepository<Organization>>>();
+
             services.AddScoped<AuditableEntitySaveChangesInterceptor>();
         }
     }

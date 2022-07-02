@@ -23,7 +23,7 @@ namespace OMS.Administration.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Organization> data = await _organizationService.GetAllAsync();
+            IReadOnlyList<Organization> data = await _organizationService.GetAllAsync();
             return Ok(data);
         }
 
@@ -31,7 +31,7 @@ namespace OMS.Administration.Api.Controllers
         [Route("{parentOrganizationId}/Branches")]
         public async Task<IActionResult> GetBranches(string parentOrganizationId)
         {
-            Specification<Organization> spec = new GetBranchesSpecification(parentOrganizationId);            
+            Specification<Organization> spec = new GetBranchesSpecification(parentOrganizationId);
             IReadOnlyList<object> data = await _organizationService.Search(spec, o => o);
             return Ok(data);
         }
@@ -40,7 +40,7 @@ namespace OMS.Administration.Api.Controllers
         [Route("{organizationId}/Contacts")]
         public async Task<IActionResult> GetContacts(string organizationId)
         {
-            Specification<Organization> spec = new GetContactsOfOrganizationSpecification(organizationId);
+            Specification<Organization> spec = new GetContactsOfOrganizationSpecification(organizationId);            
             IReadOnlyList<object> data = await _organizationService.Search(spec, o => o.Contacts);
             return Ok(data);
         }
