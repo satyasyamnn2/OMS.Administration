@@ -19,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
             bool enableSensitiveDataLogging = bool.Parse(configuration.GetValue<string>("EnableSensitiveDataLogging"));
             services.AddEntityFrameworkNpgsql().AddDbContext<AdministrationDbContext>(options =>
             {
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 options.UseNpgsql(connectionString, x => x.MigrationsAssembly(MigrationAssemblyName));
                 options.EnableDetailedErrors(enableDetailedErrors);
                 options.EnableSensitiveDataLogging(enableSensitiveDataLogging);

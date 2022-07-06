@@ -16,7 +16,6 @@ namespace OMS.Administration.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            Debugger.Launch();
             string vaultUrl = Environment.GetEnvironmentVariable("VAULT_URL");            
             string rootPassword = Environment.GetEnvironmentVariable("VAULT_ROOT_PWD");
             IHostBuilder builder = Host.CreateDefaultBuilder(args);

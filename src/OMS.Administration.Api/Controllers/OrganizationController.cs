@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OMS.Administration.Api.ActionFilters;
 using OMS.Administration.Domain.Entities;
 using OMS.Administration.Domain.Specifications.OrganizationSpec;
 using OMS.DataAccess.Shared.Contracts;
@@ -21,9 +22,19 @@ namespace OMS.Administration.Api.Controllers
         }
 
         [HttpGet]
+        [Cached(600)]
         public async Task<IActionResult> GetAll()
         {
             IReadOnlyList<Organization> data = await _organizationService.GetAllAsync();
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Cached(600)]
+        [Route("{organizationId}")]
+        public async Task<IActionResult> GetAll(string organizationId)
+        {
+            Organization data = await _organizationService.GetByIdAsync(organizationId);
             return Ok(data);
         }
 
@@ -49,7 +60,6 @@ namespace OMS.Administration.Api.Controllers
         public async Task SaveOrganization([FromBody] Organization organization)
         {
             OrganizationShouldHaveAtleastOneOwnerSpecification specification = new OrganizationShouldHaveAtleastOneOwnerSpecification();
-
             if (specification.IsSatisfiedBy(organization))
                 await _organizationService.SaveEntityAsync(organization);
             else

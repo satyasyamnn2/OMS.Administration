@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OMS.Administration.Api.Caching;
 using OMS.Administration.Infrasturcture.Persistence;
 using OMS.Administration.Infrasturcture.Persistence.DataSeed;
 
@@ -21,6 +22,7 @@ namespace OMS.Administration.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRedisCacheExtensions(Configuration);
             services.AddCurrentUserService();
             services.AddAdministrationDbContext(Configuration);
             services.AddControllers();
@@ -38,10 +40,8 @@ namespace OMS.Administration.Api
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var initialiser = scope.ServiceProvider.GetRequiredService<AdministrationDbContextInitializer>();
-                    using (var dbContext = scope.ServiceProvider.GetRequiredService<AdministrationDbContext>())
-                    {
-                        initialiser.SeedData(dbContext);
-                    }
+                    var dbContext = scope.ServiceProvider.GetRequiredService<AdministrationDbContext>();
+                    initialiser.SeedData(dbContext);
                 }
 
                 app.UseDeveloperExceptionPage();

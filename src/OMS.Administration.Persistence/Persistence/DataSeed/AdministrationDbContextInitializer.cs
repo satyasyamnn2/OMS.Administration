@@ -3,7 +3,6 @@ using OMS.Administration.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OMS.Administration.Infrasturcture.Persistence.DataSeed
 {
@@ -11,7 +10,10 @@ namespace OMS.Administration.Infrasturcture.Persistence.DataSeed
     {
         public void SeedData(AdministrationDbContext dbContext)
         {
-            SeedDataAsync(dbContext);
+            using (dbContext)
+            {
+                SeedDataAsync(dbContext);
+            }
         }
 
         private void SeedDataAsync(AdministrationDbContext dbContext)
